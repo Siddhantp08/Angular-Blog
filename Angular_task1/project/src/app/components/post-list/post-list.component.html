@@ -1,0 +1,19 @@
+<div class="post-list-container">
+  <h2>Recent Blog Posts</h2>
+  
+  <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+  
+  <div *ngIf="!isLoading && posts.length === 0" class="no-posts">
+    <p>No blog posts yet. Be the first to create one!</p>
+  </div>
+  
+  <div *ngIf="!isLoading && posts.length > 0" class="posts-grid">
+    <article *ngFor="let post of posts" class="post-card">
+      <h3>{{ post.title }}</h3>
+      <p class="post-date">{{ formatDate(post.createdAt) }}</p>
+      <div class="post-content">
+        <p>{{ post.content }}</p>
+      </div>
+    </article>
+  </div>
+</div>

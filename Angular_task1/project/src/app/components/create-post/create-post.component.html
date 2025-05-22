@@ -1,0 +1,51 @@
+<div class="create-post-container">
+  <h2>Create New Blog Post</h2>
+  
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input 
+        type="text" 
+        id="title" 
+        formControlName="title" 
+        placeholder="Enter post title" 
+        [class.invalid]="postForm.get('title')?.invalid && postForm.get('title')?.touched"
+      >
+      <div *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched" class="error-text">
+        <span *ngIf="postForm.get('title')?.errors?.['required']">Title is required</span>
+        <span *ngIf="postForm.get('title')?.errors?.['maxlength']">Title cannot exceed 100 characters</span>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea 
+        id="content" 
+        formControlName="content" 
+        rows="8" 
+        placeholder="Write your blog post content..."
+        [class.invalid]="postForm.get('content')?.invalid && postForm.get('content')?.touched"
+      ></textarea>
+      <div *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched" class="error-text">
+        <span *ngIf="postForm.get('content')?.errors?.['required']">Content is required</span>
+        <span *ngIf="postForm.get('content')?.errors?.['minlength']">Content must be at least 10 characters</span>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <a class="btn-secondary" routerLink="/posts">Cancel</a>
+      <button 
+        type="submit" 
+        class="btn-primary" 
+        [disabled]="postForm.invalid || isSubmitting"
+      >
+        <app-loading-spinner *ngIf="isSubmitting" [small]="true"></app-loading-spinner>
+        <span *ngIf="!isSubmitting">Publish Post</span>
+      </button>
+    </div>
+  </form>
+</div>
